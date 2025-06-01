@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Sections with Animated Icons</title>
+    <style>
+        /* Basic styles for headers and subparagraphs */
+        .section5-header {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section5-subpara {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+        .active-one {
+            background-color: #d0e8ff;
+        }
+        .icon {
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: transform 0.5s; /* Animation for the transform property */
+        }
+        .rotate-plus {
+            transform: rotate(0deg);
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="section5">
+        <div class="section5-header">
+            <span>Header 1</span>
+            <span class="icon">+</span>
+        </div>
+        <div class="section5-subpara">Subparagraph 1 content...</div>
+
+        <div class="section5-header">
+            <span>Header 2</span>
+            <span class="icon">+</span>
+        </div>
+        <div class="section5-subpara">Subparagraph 2 content...</div>
+
+        <div class="section5-header">
+            <span>Header 3</span>
+            <span class="icon">+</span>
+        </div>
+        <div class="section5-subpara">Subparagraph 3 content...</div>
+    </div>
+
+    <script>
+        var headers = $(".section5-header");
+        var subparas = $(".section5-subpara");
+
+        headers.on("click", function() {
+            var para = $(this).next(".section5-subpara");
+            var isActive = $(this).hasClass("active-one");
+            subparas.slideUp(250);
+            headers.removeClass("active-one");
+            headers.find(".icon").text("+");
+
+            if (!isActive) {
+                para.slideDown(250);
+                $(this).addClass("active-one");
+                $(this).find(".icon").text("-");
+            }
+        });
+
+        // Open the last accordion by default
+        $(document).ready(function() {
+            var lastHeader = headers.last();
+            var lastSubpara = subparas.last();
+            lastHeader.addClass("active-one");
+            lastHeader.find(".icon").text("-");
+            lastSubpara.slideDown(250);
+        });
+    </script>
+</body>
+</html>

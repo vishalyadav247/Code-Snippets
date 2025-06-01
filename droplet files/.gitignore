@@ -1,0 +1,14 @@
+
+# Ignore .env files in frontend and server directories
+/client/.env
+/server/.env
+.env
+ecosystem.config.js
+
+# Ignore node_modules directories in frontend and server
+/client/node_modules/
+/server/node_modules/
+/server/uploads/
+uploads/
+# Optional: Ignore build output in frontend
+/client/build/

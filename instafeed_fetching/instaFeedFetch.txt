@@ -1,0 +1,46 @@
+
+  <div class="instaFeedWrapper">
+            <style>
+                #instagram-feed{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                    grid-gap:20px;
+                }
+            </style>
+            <h2 class="myh2">instagram feed</h2>
+            <div id="instagram-feed">
+            </div>
+        </div>
+   <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const handPicked = 'IGQWROUGJLV2FWelp2ZAFNQUkVNbUNzdGNDcEVkM2RzM3pDMjRfd0RqXy16bGZAyMERqLTNQT2hoMXBVLWdXUjRTOXc1OEtUUk40TXpkZAnNmbFJPYzhtSFZAhUk8xZAlA5NEx1OUJKZA2dyVGZA2X2ZANcEFFYms2VzYySXMZD'
+    const vishal = 'IGQWROZAmF6cEwwaDBxeHNhNG9idHloTjgtaG1ZARE1tLVoyY2FuWlU4VHVsWFRzQmFBdGEza0pYcUtxOEZAlVmpzSlhULUxzTUV3ZA055aExxQmRvQ2hBQWs5TDJUdEF6QUxKOUpSMWd2d2J5QXJ1bXNiS0J4bm1VQXcZD'; // Replace with your Instagram Test User's access token
+    const instagramFeed = document.getElementById('instagram-feed');
+    const accessToken = handPicked ;
+
+    fetch(`https://graph.instagram.com/me/media?fields=id,media_url,permalink&access_token=${accessToken}`)
+        .then(response => response.json())
+        .then(data => {
+            // Process and display the data in the HTML
+            console.log(data)
+            if (data.data) {
+                const items = data.data.map(item => 
+                    `<div class="post">
+                        <a href="${item.permalink}" target="_blank">
+                            <img src="${item.media_url}" alt="${item.caption}" />
+                        </a>
+                    </div>`
+                );
+                instagramFeed.innerHTML = items.join('');
+            } else {
+                instagramFeed.innerHTML = 'Failed to load Instagram feed.';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            instagramFeed.innerHTML = 'Error loading feed.';
+        });
+});
+
+    </script>

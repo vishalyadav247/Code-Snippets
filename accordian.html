@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<style>
+    .accordion {
+      margin-top: 2.5rem;
+      margin-bottom: 0;
+      border-top:1px solid rgba(var(--color-foreground), 0.2) !important;
+      border-bottom: 0rem solid rgba(var(--color-foreground), 0.2) !important;
+    }
+    .accordion__item{
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.2);
+    }
+    .accordion-header img {
+        padding-right: 8px;
+    }
+    .accordion-header {
+        font-size: 16px;
+        line-height: 16px;
+        letter-spacing: 2px;
+        padding: 20px 0px;
+        cursor: pointer;
+        transition: all .3s;
+        position:relative;
+    }
+    .accordion-body {
+        display: none;
+    }
+    .accordion__item>.accordion-header:after {
+        content: "";
+        background: url(https://cdn.shopify.com/s/files/1/0754/7037/3174/files/icon.svg?v=1692341063);
+        background-size: cover;
+        transition: .3s all;
+        transform: rotate(45deg);
+        height: 10px;
+        width: 10px;
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        display: inline-block;
+        background-repeat: no-repeat;
+    } 
+    .accordion__item.active >.accordion-header:after{
+        transform: rotate(90deg);
+    }
+    .accordion-body__contents{
+        padding: 0px 0px 25px 0px;
+    }
+    </style>
+<body>
+    <div class="accordion js-accordion season_tabs mob">
+  
+        <!-- Accordian 1 -->
+        <div class="accordion__item js-accordion-item ">
+          <div class="accordion-header js-accordion-header">Heading 1</div>
+          <div class="accordion-body js-accordion-body">
+            <div class="accordion-body__contents">
+              <!-- Content -->
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+              when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+              It has survived not only five centuries, but also the leap into electronic typesetting, 
+              remaining essentially unchanged. It was popularised in the 1960s with the release of 
+              Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing 
+              software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+          </div>
+        </div>
+    
+         <!-- Accordian 2 -->
+        <div class="accordion__item js-accordion-item ">
+          <div class="accordion-header js-accordion-header">Heading 2</div>
+          <div class="accordion-body js-accordion-body">
+            <div class="accordion-body__contents">
+              <!-- Content -->
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+              when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+              It has survived not only five centuries, but also the leap into electronic typesetting, 
+              remaining essentially unchanged. It was popularised in the 1960s with the release of 
+              Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing 
+              software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+          </div>
+        </div>
+    
+         <!-- Accordian 3 -->  
+        <div class="accordion__item js-accordion-item ">
+          <div class="accordion-header js-accordion-header">Heading 3</div>
+          <div class="accordion-body js-accordion-body">
+            <div class="accordion-body__contents">
+              <!-- Content -->
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+              when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+              It has survived not only five centuries, but also the leap into electronic typesetting, 
+              remaining essentially unchanged. It was popularised in the 1960s with the release of 
+              Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing 
+              software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+          </div>
+        </div>
+        
+  </div>
+
+
+
+  <!-- Custom Added Script Start For Tabber -->
+<script>
+    var accordion = (function () {
+      var $accordion = $('.js-accordion');
+      var $accordion_header = $accordion.find('.js-accordion-header');
+      var $accordion_item = $('.js-accordion-item');
+  
+      // default settings
+      var settings = {
+        // animation speed
+        speed: 400,
+  
+        // close all other accordion items if true
+        oneOpen: false
+      };
+  
+      return {
+        // pass configurable object literal
+        init: function ($settings) {
+          $accordion_header.on('click', function () {
+            accordion.toggle($(this));          
+          });
+  
+          $.extend(settings, $settings);
+  
+          // ensure only one accordion is active if oneOpen is true
+          if (settings.oneOpen && $('.js-accordion-item.active').length > 1) {
+            $('.js-accordion-item.active:not(:first)').removeClass('active');
+          }
+  
+          // reveal the active accordion bodies
+          $('.js-accordion-item.active').find('> .js-accordion-body').show();
+        },
+        toggle: function ($this) {
+  
+          // if (settings.oneOpen && $this[0] != $this.closest('.js-accordion').find('> .js-accordion-item.active > .js-accordion-header')[0]) {
+          //   $this.closest('.js-accordion')
+          //     .find('> .js-accordion-item')
+          //     .removeClass('active')
+          //     .find('.js-accordion-body')
+          //     .slideUp()
+          // }
+  
+          // show/hide the clicked accordion item
+          $this.closest('.js-accordion-item').toggleClass('active');
+          $this.next().stop().slideToggle(settings.speed);
+        }
+      }
+    })();
+  
+    $(document).ready(function () {
+      accordion.init({ speed: 300, oneOpen: true });
+    });
+  
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+server {
+	 location / {
+        root /var/www/potnvehiclefinder.co.uk/html/client/build;
+                try_files $uri /index.html;  # Serve index.html for all navigation routes
+        index index.html;
+	}
+        server_name potnvehiclefinder.co.uk www.potnvehiclefinder.co.uk;
+
+        location /api {
+        proxy_pass http://localhost:5000;  # Adjust if your Express app runs on a different port
+        proxy_http_version 1.1;
+        proxy_set_header Connection "keep-alive";  # Keep the connection alive for SSE
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;  # Pass the client's IP to the backend
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 3600s;  # Keep the connection open for 1 hour
+        proxy_buffering off;  # Disable buffering for SSE   
+	 }
+
+	location /uploads/ {
+	 alias /var/www/potnvehiclefinder.co.uk/html/server/uploads/;
+  autoindex on;  # Optional: Allows directory listing
+	}
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/potnvehiclefinder.co.uk/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/potnvehiclefinder.co.uk/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = www.potnvehiclefinder.co.uk) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = potnvehiclefinder.co.uk) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+
+        server_name potnvehiclefinder.co.uk www.potnvehiclefinder.co.uk;
+    return 404; # managed by Certbot
+
+
+
+
+}
